@@ -1,0 +1,8 @@
+services:
+  my-container:
+    image: iss-loc
+    container_name: iss-loc
+    volumes:
+      - type:bind
+        source: /workspaces/ds2002-byz7ex/data
+        target: /data
