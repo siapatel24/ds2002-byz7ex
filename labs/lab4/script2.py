@@ -19,7 +19,14 @@ def download_file(url, file_path):
     except requests.exceptions.RequestException as e:
         print(f"Error downloading: {e}")
 
-#Upload file to a bucket in S3
+# Download file 
+image_url = "https://images.app.goo.gl/yS4EyKLwRDfh52VNA"
+local_file = "downloaded_image.gif"
+path = os.path.join(os.getcwd(), file) # Saves to current directory
+
+download_file(image_url, local_file)
+
+# Upload file to a bucket in S3
 bucket = 'ds2002-byz7ex'
 local_file = 'project/file'
 
@@ -30,8 +37,6 @@ resp = s3.put_object(
 )
 
 #Presign the file with an expiration time
-bucket_name = str
-object_name = str
 expires_in = 600
 
 response = s3.generate_presigned_url(
