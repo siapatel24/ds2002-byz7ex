@@ -20,28 +20,25 @@ def download_file(url, file_path):
         print(f"Error downloading: {e}")
 
 # Download file 
-image_url = "https://images.app.goo.gl/yS4EyKLwRDfh52VNA"
+image_url = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnFwa3kzZnFubG9ucm1yYTQ3eDRrbGRheDR2d3I3OG1seGdsem1rYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4FQMuOKR6zQRO/giphy.gif"
 local_file = "downloaded_image.gif"
-path = os.path.join(os.getcwd(), file) # Saves to current directory
-
 download_file(image_url, local_file)
 
 # Upload file to a bucket in S3
 bucket = 'ds2002-byz7ex'
-local_file = 'project/file'
 
-resp = s3.put_object(
-    Body = local_file,
-    Bucket = bucket,
-    Key = local_file
-)
+with open(local_file, 'rb') as f:
+    resp = s3.put_object(
+        Body = f,
+        Bucket = bucket,
+        Key = local_file
+    )
 
-#Presign the file with an expiration time
 expires_in = 600
 
 response = s3.generate_presigned_url(
     'get_object',
-    Params={'Bucket': bucket_name, 'Key': object_name},
+    Params={'Bucket': bucket, 'Key': local_file},
     ExpiresIn=expires_in
 )
 
